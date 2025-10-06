@@ -1,12 +1,14 @@
+using System.Collections.Generic;
+
 namespace NEW_QR_BASED_ATTENDANCE.Models
 {
     public class Person
     {
-        public int Id { get; set; }
-        public required string FullName { get; set; }
+        public int PersonId { get; set; }
+        public string FullName { get; set; } = string.Empty;
+        public string PersonCode { get; set; } = string.Empty;
 
-        // Add this missing property
-        public required string PersonCode { get; set; } 
+        // ✅ Relationship to AttendanceRecord
+        public ICollection<AttendanceRecord> AttendanceRecords { get; set; } = new List<AttendanceRecord>();
     }
 }
-       

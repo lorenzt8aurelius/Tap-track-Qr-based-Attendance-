@@ -1,0 +1,6 @@
+@NEW_QR_BASED_ATTENDANCE_HostAddress = http://localhost:5079
+
+GET {{NEW_QR_BASED_ATTENDANCE_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###

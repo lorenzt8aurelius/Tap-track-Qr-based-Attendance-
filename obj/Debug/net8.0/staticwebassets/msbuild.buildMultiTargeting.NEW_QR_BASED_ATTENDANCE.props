@@ -1,0 +1,3 @@
+﻿<Project>
+  <Import Project="..\build\NEW_QR_BASED_ATTENDANCE.props" />
+</Project>

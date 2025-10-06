@@ -1,9 +1,0 @@
-C:\Users\loren\OneDrive\Documents\QR Attendance (Tap and Track)\NEW_QR_BASED_ATTENDANCE\obj\Debug\net7.0\NEW_QR_BASED_ATTENDANCE.csproj.AssemblyReference.cache
-C:\Users\loren\OneDrive\Documents\QR Attendance (Tap and Track)\NEW_QR_BASED_ATTENDANCE\obj\Debug\net7.0\rpswa.dswa.cache.json
-C:\Users\loren\OneDrive\Documents\QR Attendance (Tap and Track)\NEW_QR_BASED_ATTENDANCE\obj\Debug\net7.0\NEW_QR_BASED_ATTENDANCE.GeneratedMSBuildEditorConfig.editorconfig
-C:\Users\loren\OneDrive\Documents\QR Attendance (Tap and Track)\NEW_QR_BASED_ATTENDANCE\obj\Debug\net7.0\NEW_QR_BASED_ATTENDANCE.AssemblyInfoInputs.cache
-C:\Users\loren\OneDrive\Documents\QR Attendance (Tap and Track)\NEW_QR_BASED_ATTENDANCE\obj\Debug\net7.0\NEW_QR_BASED_ATTENDANCE.AssemblyInfo.cs
-C:\Users\loren\OneDrive\Documents\QR Attendance (Tap and Track)\NEW_QR_BASED_ATTENDANCE\obj\Debug\net7.0\NEW_QR_BASED_ATTENDANCE.csproj.CoreCompileInputs.cache
-C:\Users\loren\OneDrive\Documents\QR Attendance (Tap and Track)\NEW_QR_BASED_ATTENDANCE\obj\Debug\net7.0\NEW_QR_BASED_ATTENDANCE.MvcApplicationPartsAssemblyInfo.cs
-C:\Users\loren\OneDrive\Documents\QR Attendance (Tap and Track)\NEW_QR_BASED_ATTENDANCE\obj\Debug\net7.0\NEW_QR_BASED_ATTENDANCE.MvcApplicationPartsAssemblyInfo.cache
-C:\Users\loren\OneDrive\Documents\QR Attendance (Tap and Track)\NEW_QR_BASED_ATTENDANCE\obj\Debug\net7.0\NEW_QR_BASED_ATTENDANCE.sourcelink.json

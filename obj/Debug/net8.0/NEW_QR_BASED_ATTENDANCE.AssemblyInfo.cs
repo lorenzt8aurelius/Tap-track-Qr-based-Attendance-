@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("NEW_QR_BASED_ATTENDANCE")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+57b89712b52f05d04f3381b824fc921edd776847")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+597945876e839ce1872f7c412585ae441e6a2f2f")]
 [assembly: System.Reflection.AssemblyProductAttribute("NEW_QR_BASED_ATTENDANCE")]
 [assembly: System.Reflection.AssemblyTitleAttribute("NEW_QR_BASED_ATTENDANCE")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

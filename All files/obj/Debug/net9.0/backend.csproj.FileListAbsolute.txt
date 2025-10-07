@@ -47,3 +47,4 @@ C:\Users\loren\Tap & Track  (QR-based Attendance)\All files\obj\Debug\net9.0\ref
 C:\Users\loren\Tap & Track  (QR-based Attendance)\All files\obj\Debug\net9.0\backend.pdb
 C:\Users\loren\Tap & Track  (QR-based Attendance)\All files\obj\Debug\net9.0\backend.genruntimeconfig.cache
 C:\Users\loren\Tap & Track  (QR-based Attendance)\All files\obj\Debug\net9.0\ref\backend.dll
+C:\Users\loren\Tap & Track  (QR-based Attendance)\All files\obj\Debug\net9.0\backend.sourcelink.json

@@ -192,131 +192,87 @@
         </div>
     </div>
 
-    <script>
-        // Try HTTPS first, fallback to HTTP
-        const API_BASE_HTTPS = 'https://localhost:7258/api/auth';
-        const API_BASE_HTTP = 'http://localhost:5165/api/auth';
-        let API_BASE = API_BASE_HTTPS;
-        
-        function showMessage(message, type = 'error') {
-            const messageDiv = document.getElementById('message');
-            messageDiv.innerHTML = `<div class="${type}">${message}</div>`;
-        }
+   <script type="module">
+  import { createClient } from "https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm";
 
-        function toggleForm() {
-            const loginForm = document.getElementById('loginForm');
-            const registerForm = document.getElementById('registerForm');
-            const toggleBtn = document.querySelector('.toggle-btn');
-            
-            if (loginForm.style.display === 'none') {
-                loginForm.style.display = 'block';
-                registerForm.style.display = 'none';
-                toggleBtn.textContent = 'Need an account? Register here';
-            } else {
-                loginForm.style.display = 'none';
-                registerForm.style.display = 'block';
-                toggleBtn.textContent = 'Already have an account? Login here';
-            }
-            
-            document.getElementById('message').innerHTML = '';
-        }
+  // ⚙️ Replace with your Supabase credentials
+  const SUPABASE_URL = "https://YOUR-PROJECT-REF.supabase.co";
+  const SUPABASE_KEY = "YOUR-ANON-KEY";
+  const supabase = createClient(SUPABASE_URL, SUPABASE_KEY);
 
-        document.getElementById('loginForm').addEventListener('submit', async (e) => {
-            e.preventDefault();
-            
-            const email = document.getElementById('loginEmail').value;
-            const password = document.getElementById('loginPassword').value;
-            
-            try {
-                let response = await fetch(`${API_BASE}/login`, {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify({ email, password })
-                });
-                
-                // If HTTPS fails, try HTTP
-                if (!response.ok && API_BASE === API_BASE_HTTPS) {
-                    console.log('HTTPS failed, trying HTTP...');
-                    API_BASE = API_BASE_HTTP;
-                    response = await fetch(`${API_BASE}/login`, {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json',
-                        },
-                        body: JSON.stringify({ email, password })
-                    });
-                }
-                
-                const data = await response.json();
-                
-                if (response.ok) {
-                    localStorage.setItem('accessToken', data.access_token);
-                    localStorage.setItem('userData', JSON.stringify(data.user));
-                    showMessage('Login successful! Redirecting...', 'success');
-                    setTimeout(() => {
-                        window.location.href = 'dashboard.html';
-                    }, 1500);
-                } else {
-                    showMessage(data.error || `Login failed (${response.status})`);
-                }
-            } catch (error) {
-                console.error('Login error:', error);
-                showMessage(`Network error: ${error.message}. Make sure the backend is running on https://localhost:7258`);
-            }
-        });
+  const messageBox = document.getElementById('message');
+  function showMessage(text, type = 'error') {
+    messageBox.innerHTML = `<div class="${type}">${text}</div>`;
+  }
 
-        document.getElementById('registerForm').addEventListener('submit', async (e) => {
-            e.preventDefault();
-            
-            const name = document.getElementById('registerName').value;
-            const email = document.getElementById('registerEmail').value;
-            const password = document.getElementById('registerPassword').value;
-            const role = document.getElementById('registerRole').value;
-            
-            try {
-                let response = await fetch(`${API_BASE}/register`, {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify({ name, email, password, role })
-                });
-                
-                // If HTTPS fails, try HTTP
-                if (!response.ok && API_BASE === API_BASE_HTTPS) {
-                    console.log('HTTPS failed, trying HTTP...');
-                    API_BASE = API_BASE_HTTP;
-                    response = await fetch(`${API_BASE}/register`, {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json',
-                        },
-                        body: JSON.stringify({ name, email, password, role })
-                    });
-                }
-                
-                const data = await response.json();
-                
-                if (response.ok) {
-                    showMessage('Registration successful! Please login.', 'success');
-                    setTimeout(() => {
-                        toggleForm();
-                    }, 2000);
-                } else {
-                    showMessage(data.error || 'Registration failed');
-                }
-            } catch (error) {
-                console.error('Register error:', error);
-                showMessage(`Network error: ${error.message}. Make sure the backend is running on https://localhost:7258`);
-            }
-        });
+  function toggleForm() {
+    const loginForm = document.getElementById('loginForm');
+    const registerForm = document.getElementById('registerForm');
+    const toggleBtn = document.querySelector('.toggle-btn');
 
-        // Check if already logged in
-        if (localStorage.getItem('accessToken')) {
-            window.location.href = 'dashboard.html';
-        }
-    </script>
+    if (loginForm.style.display === 'none') {
+      loginForm.style.display = 'block';
+      registerForm.style.display = 'none';
+      toggleBtn.textContent = 'Need an account? Register here';
+    } else {
+      loginForm.style.display = 'none';
+      registerForm.style.display = 'block';
+      toggleBtn.textContent = 'Already have an account? Login here';
+    }
+
+    messageBox.innerHTML = '';
+  }
+  window.toggleForm = toggleForm;
+
+  // ✅ Login
+  document.getElementById('loginForm').addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const email = document.getElementById('loginEmail').value;
+    const password = document.getElementById('loginPassword').value;
+
+    const { data, error } = await supabase.auth.signInWithPassword({ email, password });
+    if (error) {
+      showMessage(error.message);
+      return;
+    }
+
+    localStorage.setItem('user', JSON.stringify(data.user));
+    showMessage('Login successful! Redirecting...', 'success');
+
+    setTimeout(() => {
+      window.location.href = 'teacher-dashboard.html';
+    }, 1200);
+  });
+
+  // ✅ Register
+  document.getElementById('registerForm').addEventListener('submit', async (e) => {
+    e.preventDefault();
+
+    const email = document.getElementById('registerEmail').value;
+    const password = document.getElementById('registerPassword').value;
+    const role = document.getElementById('registerRole').value;
+
+    const { data, error } = await supabase.auth.signUp({
+      email,
+      password,
+      options: { data: { role } },
+    });
+
+    if (error) {
+      showMessage(error.message);
+      return;
+    }
+
+    showMessage('Registration successful! You can now log in.', 'success');
+    setTimeout(toggleForm, 2000);
+  });
+
+  // Auto-redirect if logged in
+  const currentSession = await supabase.auth.getSession();
+  if (currentSession.data.session) {
+    window.location.href = 'teacher-dashboard.html';
+  }
+</script>
+
 </body>
 </html>

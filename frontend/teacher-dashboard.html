@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Teacher Dashboard - Tap & Track</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header class="header">
+        <div class="logo">Tap &amp; Track</div>
+        <div class="user-info">
+            <button class="logout-btn" id="logoutBtn">Logout</button>
+        </div>
+    </header>
+
+    <main class="container wide">
+        <h1 class="page-title">Teacher Dashboard</h1>
+        <div id="status" class="status-banner" style="display:none;"></div>
+
+        <section class="card">
+            <div class="table-responsive">
+                <table class="table" id="attendanceTable">
+                    <thead>
+                        <tr>
+                            <th>Student</th>
+                            <th>Date</th>
+                            <th>Time In</th>
+                            <th>Time Out</th>
+                            <th>Session Code</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- Rows injected by teacher.js -->
+                    </tbody>
+                </table>
+            </div>
+        </section>
+    </main>
+
+    <script src="teacher.js"></script>
+</body>
+<script>
+// Redirect to login if not authenticated (basic guard if teacher.js fails early)
+try {
+  const token = localStorage.getItem('accessToken');
+  if (!token) {
+    window.location.href = '../All files/login.html';
+  }
+} catch {}
+</script>
+</html>
+
+

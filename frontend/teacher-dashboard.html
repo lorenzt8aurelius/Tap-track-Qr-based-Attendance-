@@ -44,7 +44,10 @@
 try {
   const token = localStorage.getItem('accessToken');
   if (!token) {
-    window.location.href = 'login.html';
+    // Adjust this depending on where login.html actually is
+    window.location.href = '../login.html';  // if login.html is one folder up
+    // OR
+    // window.location.href = 'login.html';   // if they’re in the same folder
   }
 } catch {}
 </script>

@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 /* General Reset */
 * {
   margin: 0;
@@ -120,3 +121,42 @@ button {
 button:hover {
   background: #0056b3;
 }
+=======
+* { box-sizing: border-box; }
+body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: #f5f7fa; color: #333; margin: 0; }
+
+.header { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: #fff; padding: 1rem 2rem; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
+.logo { font-size: 1.25rem; font-weight: 500; }
+.logout-btn { background: rgba(255, 255, 255, 0.2); color: #fff; border: 1px solid rgba(255,255,255,0.35); padding: 0.5rem 1rem; border-radius: 6px; cursor: pointer; }
+.logout-btn:hover { background: rgba(255,255,255,0.3); }
+
+.container { max-width: 1200px; margin: 1.25rem auto; padding: 0 1rem; }
+.container.wide { width: 90%; }
+
+.page-title { margin: 0.5rem 0 1rem; color: #4a4a4a; font-size: 1.5rem; }
+
+.card { background: #fff; border-radius: 10px; padding: 1rem; box-shadow: 0 5px 15px rgba(0,0,0,0.08); }
+
+.table-responsive { width: 100%; overflow-x: auto; }
+.table { width: 100%; border-collapse: collapse; background: #fff; }
+.table thead th { position: sticky; top: 0; background: #eef1ff; color: #3949ab; text-align: left; font-weight: 600; padding: 0.75rem 0.9rem; border-bottom: 2px solid #d9def8; }
+.table tbody td { padding: 0.7rem 0.9rem; border-bottom: 1px solid #eee; }
+.table tbody tr:hover { background: #fafbff; }
+.table tbody tr:last-child td { border-bottom: none; }
+
+.status-banner { margin: 0 0 1rem; padding: 0.75rem 1rem; border-radius: 8px; border-left: 4px solid #999; background: #f4f4f4; color: #333; }
+.status-banner.info { border-left-color: #4c6ef5; background: #eef2ff; color: #334; }
+.status-banner.warning { border-left-color: #f59f00; background: #fff8e6; color: #663; }
+.status-banner.error { border-left-color: #e03131; background: #ffe8e8; color: #633; }
+
+@media (max-width: 768px) {
+  .page-title { font-size: 1.25rem; }
+  .table thead { display: none; }
+  .table, .table tbody, .table tr, .table td { display: block; width: 100%; }
+  .table tr { margin-bottom: 0.75rem; border: 1px solid #eee; border-radius: 8px; overflow: hidden; }
+  .table td { display: flex; justify-content: space-between; align-items: center; padding: 0.6rem 0.9rem; }
+  .table td::before { content: attr(data-label); font-weight: 600; color: #555; margin-right: 1rem; }
+}
+
+
+>>>>>>> 06464a42578a547c3de741f69a350a1206908f66

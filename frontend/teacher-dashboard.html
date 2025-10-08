@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Teacher Dashboard - Tap & Track</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <header class="header">
+    <div class="logo">Tap & Track</div>
+    <div class="user-info">
+      <button id="logoutBtn" class="btn">Logout</button>
+    </div>
+  </header>
+
+  <main class="container wide">
+    <h1 class="page-title">Teacher Dashboard</h1>
+    <div id="status" class="status-banner" style="display:none;"></div>
+
+    <section class="card">
+      <div class="table-responsive">
+        <table class="table" id="attendanceTable">
+          <thead>
+            <tr>
+              <th>User ID</th>
+              <th>Session</th>
+              <th>Date</th>
+              <th>Time In</th>
+              <th>Time Out</th>
+            </tr>
+          </thead>
+          <tbody></tbody>
+        </table>
+      </div>
+    </section>
+  </main>
+
+  <!-- ✅ Load Supabase and dashboard logic -->
+  <script type="module">
+    import { createClient } from "https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm";
+
+    const SUPABASE_URL = "https://sqqxipliixocghdcqxsw.supabase.co";
+    const SUPABASE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InNxcXhpcGxpaXhvY2doZGNxeHN3Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTk3NDQ1NDYsImV4cCI6MjA3NTMyMDU0Nn0.-oLDH3J6l_b0BZ-ijiJv_R6KuALG8zLAXGFhQeiKIHc";
+    const supabase = createClient(SUPABASE_URL, SUPABASE_KEY);
+
+    const tableBody = document.querySelector("#attendanceTable tbody");
+    const logoutBtn = document.getElementById("logoutBtn");
+
+    // ✅ Redirect to login if no user session
+    const { data: sessionData } = await supabase.auth.getSession();
+    if (!sessionData.session) {
+      window.location.href = "login.html";
+    }
+
+    // ✅ Load attendance data
+    async function loadAttendance() {
+      const { data, error } = await supabase.from("attendance").select("*").order("date", { ascending: false });
+      if (error) {
+        console.error("Error fetching attendance:", error);
+        return;
+      }
+
+      tableBody.innerHTML = "";
+
+      data.forEach(row => {
+        const tr = document.createElement("tr");
+        tr.innerHTML = `
+          <td>${row.user_id}</td>
+          <td>${row.session_code || "-"}</td>
+          <td>${row.date || "-"}</td>
+          <td>${row.time_in || "-"}</td>
+          <td>${row.time_out || "-"}</td>
+        `;
+        tableBody.appendChild(tr);
+      });
+    }
+
+    await loadAttendance();
+
+    // ✅ Logout
+    logoutBtn.addEventListener("click", async () => {
+      await supabase.auth.signOut();
+      localStorage.removeItem("user");
+      window.location.href = "login.html";
+    });
+  </script>
+</body>
+</html>

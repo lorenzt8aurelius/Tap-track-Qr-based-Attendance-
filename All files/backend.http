@@ -1,0 +1,45 @@
+@backend_HostAddress = https://localhost:7258
+
+### Register User
+POST {{backend_HostAddress}}/api/auth/register
+Content-Type: application/json
+
+{
+  "email": "test@example.com",
+  "password": "password123",
+  "name": "Test User",
+  "role": "student"
+}
+
+### Login User
+POST {{backend_HostAddress}}/api/auth/login
+Content-Type: application/json
+
+{
+  "email": "test@example.com",
+  "password": "password123"
+}
+
+### Get Dashboard (replace TOKEN with actual token from login)
+GET {{backend_HostAddress}}/api/auth/dashboard
+Authorization: Bearer YOUR_ACCESS_TOKEN_HERE
+
+### Test with different user
+POST {{backend_HostAddress}}/api/auth/register
+Content-Type: application/json
+
+{
+  "email": "teacher@school.com",
+  "password": "teacher123",
+  "name": "Teacher Name",
+  "role": "teacher"
+}
+
+### Login teacher
+POST {{backend_HostAddress}}/api/auth/login
+Content-Type: application/json
+
+{
+  "email": "teacher@school.com",
+  "password": "teacher123"
+}

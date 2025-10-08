@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tap & Track - Login</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .container {
+      background: white;
+      padding: 2rem;
+      border-radius: 10px;
+      box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+      width: 100%;
+      max-width: 400px;
+    }
+
+    .logo { text-align: center; margin-bottom: 2rem; }
+    .logo h1 { color: #667eea; font-size: 2rem; font-weight: 300; }
+    .logo p { color: #666; font-size: 0.9rem; margin-top: 0.5rem; }
+
+    .form-group { margin-bottom: 1.5rem; }
+    label { display: block; margin-bottom: 0.5rem; color: #333; font-weight: 500; }
+
+    input, select {
+      width: 100%;
+      padding: 0.75rem;
+      border: 2px solid #e1e5e9;
+      border-radius: 5px;
+      font-size: 1rem;
+      transition: border-color 0.3s;
+    }
+
+    input:focus, select:focus { outline: none; border-color: #667eea; }
+
+    .btn {
+      width: 100%;
+      padding: 0.75rem;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      border: none;
+      border-radius: 5px;
+      font-size: 1rem;
+      font-weight: 500;
+      cursor: pointer;
+      transition: transform 0.2s;
+    }
+
+    .btn:hover { transform: translateY(-2px); }
+
+    .error, .success {
+      padding: 0.75rem;
+      border-radius: 5px;
+      margin-bottom: 1rem;
+      border-left: 4px solid;
+    }
+
+    .error { background: #fee; color: #c33; border-color: #c33; }
+    .success { background: #efe; color: #363; border-color: #363; }
+
+    .toggle-form { margin-top: 1rem; text-align: center; }
+    .toggle-btn {
+      background: none; border: none; color: #667eea;
+      cursor: pointer; text-decoration: underline; font-size: 0.9rem;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="logo">
+      <h1>Tap & Track</h1>
+      <p>QR-based Attendance System</p>
+    </div>
+
+    <div id="message"></div>
+
+    <!-- Login Form -->
+    <form id="loginForm" style="display: block;">
+      <div class="form-group">
+        <label for="loginEmail">Email</label>
+        <input type="email" id="loginEmail" required>
+      </div>
+      <div class="form-group">
+        <label for="loginPassword">Password</label>
+        <input type="password" id="loginPassword" required>
+      </div>
+      <button type="submit" class="btn">Login</button>
+    </form>
+
+    <!-- Register Form -->
+    <form id="registerForm" style="display: none;">
+      <div class="form-group">
+        <label for="registerEmail">Email</label>
+        <input type="email" id="registerEmail" required>
+      </div>
+      <div class="form-group">
+        <label for="registerPassword">Password</label>
+        <input type="password" id="registerPassword" required>
+      </div>
+      <div class="form-group">
+        <label for="registerRole">Role</label>
+        <select id="registerRole" required>
+          <option value="student">Student</option>
+          <option value="teacher">Teacher</option>
+          <option value="admin">Admin</option>
+        </select>
+      </div>
+      <button type="submit" class="btn">Register</button>
+    </form>
+
+    <div class="toggle-form">
+      <button type="button" class="toggle-btn" onclick="toggleForm()">Need an account? Register here</button>
+    </div>
+  </div>
+
+  <script type="module">
+    import { createClient } from "https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm";
+
+    const SUPABASE_URL = "https://sqqxipliixocghdcqxsw.supabase.co";
+    const SUPABASE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InNxcXhpcGxpaXhvY2doZGNxeHN3Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTk3NDQ1NDYsImV4cCI6MjA3NTMyMDU0Nn0.-oLDH3J6l_b0BZ-ijiJv_R6KuALG8zLAXGFhQeiKIHc";
+    const supabase = createClient(SUPABASE_URL, SUPABASE_KEY);
+
+    const messageBox = document.getElementById("message");
+    function showMessage(text, type = "error") {
+      messageBox.innerHTML = `<div class="${type}">${text}</div>`;
+    }
+
+    function toggleForm() {
+      const loginForm = document.getElementById("loginForm");
+      const registerForm = document.getElementById("registerForm");
+      const toggleBtn = document.querySelector(".toggle-btn");
+
+      if (loginForm.style.display === "none") {
+        loginForm.style.display = "block";
+        registerForm.style.display = "none";
+        toggleBtn.textContent = "Need an account? Register here";
+      } else {
+        loginForm.style.display = "none";
+        registerForm.style.display = "block";
+        toggleBtn.textContent = "Already have an account? Login here";
+      }
+      messageBox.innerHTML = "";
+    }
+    window.toggleForm = toggleForm;
+
+    document.getElementById("loginForm").addEventListener("submit", async (e) => {
+      e.preventDefault();
+      const email = document.getElementById("loginEmail").value;
+      const password = document.getElementById("loginPassword").value;
+
+      const { data, error } = await supabase.auth.signInWithPassword({ email, password });
+      if (error) return showMessage(error.message);
+
+      localStorage.setItem("user", JSON.stringify(data.user));
+      showMessage("Login successful! Redirecting...", "success");
+      setTimeout(() => (window.location.href = "teacher-dashboard.html"), 1200);
+    });
+
+    document.getElementById("registerForm").addEventListener("submit", async (e) => {
+      e.preventDefault();
+
+      const email = document.getElementById("registerEmail").value;
+      const password = document.getElementById("registerPassword").value;
+      const role = document.getElementById("registerRole").value;
+
+      const { error } = await supabase.auth.signUp({
+        email,
+        password,
+        options: { data: { role } },
+      });
+
+      if (error) return showMessage(error.message);
+      showMessage("Registration successful! You can now log in.", "success");
+      setTimeout(toggleForm, 2000);
+    });
+
+    const { data: sessionData } = await supabase.auth.getSession();
+    if (sessionData.session) window.location.href = "teacher-dashboard.html";
+  </script>
+</body>
+</html>

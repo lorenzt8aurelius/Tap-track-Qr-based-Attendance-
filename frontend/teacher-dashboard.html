@@ -15,26 +15,29 @@
   </header>
 
   <main class="container wide">
-    <h1 class="page-title">Teacher Dashboard</h1>
-    <div id="status" class="status-banner" style="display:none;"></div>
+  <h1 class="page-title">Teacher Dashboard</h1>
+  <div id="status" class="status-banner" style="display:none;"></div>
 
-    <section class="card">
-      <div class="table-responsive">
-        <table class="table" id="attendanceTable">
-          <thead>
-            <tr>
-              <th>User ID</th>
-              <th>Session</th>
-              <th>Date</th>
-              <th>Time In</th>
-              <th>Time Out</th>
-            </tr>
-          </thead>
-          <tbody></tbody>
-        </table>
-      </div>
-    </section>
-  </main>
+  <section class="card">
+    <button id="markAttendanceBtn" class="btn">+ Mark Attendance</button>
+
+    <div class="table-responsive">
+      <table class="table" id="attendanceTable">
+        <thead>
+          <tr>
+            <th>User ID</th>
+            <th>Session</th>
+            <th>Date</th>
+            <th>Time In</th>
+            <th>Time Out</th>
+          </tr>
+        </thead>
+        <tbody></tbody>
+      </table>
+    </div>
+  </section>
+</main>
+
 
   <!-- ✅ Load Supabase and dashboard logic -->
   <script type="module">

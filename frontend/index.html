@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Tap&Track - Login</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="login-container">
+    <h1>Tap&Track</h1>
+    <p class="subtitle">Attendance Made Easy</p>
+
+    <form id="loginForm" method="POST">
+      <div class="input-group">
+        <label for="username">Username</label>
+        <input type="text" id="username" name="username" placeholder="Enter your username" required />
+      </div>
+
+      <div class="input-group">
+        <label for="password">Password</label>
+        <input type="password" id="password" name="password" placeholder="Enter your password" required />
+      </div>
+
+      <!-- This element is where login feedback will be displayed -->
+      <p id="loginMessage" class="note" style="color: red;"></p>
+
+      <button type="submit" class="btn">Login</button>
+    </form>
+
+    <p class="note">Use your registered account to log in.</p>
+    <p class="note">Don't have an account? <a href="register.html">Sign up</a></p>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>

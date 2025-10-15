@@ -1,0 +1,398 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tap & Track - Dashboard</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #f5f7fa;
+            color: #333;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 300;
+        }
+
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .user-details {
+            text-align: right;
+        }
+
+        .user-name {
+            font-weight: 500;
+            font-size: 1.1rem;
+        }
+
+        .user-role {
+            font-size: 0.9rem;
+            opacity: 0.8;
+            text-transform: capitalize;
+        }
+
+        .logout-btn {
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            padding: 0.5rem 1rem;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        .logout-btn:hover {
+            background: rgba(255, 255, 255, 0.3);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 0 2rem;
+        }
+
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .card {
+            background: white;
+            border-radius: 10px;
+            padding: 1.5rem;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+        }
+
+        .card h3 {
+            color: #667eea;
+            margin-bottom: 1rem;
+            font-size: 1.2rem;
+        }
+
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1rem;
+        }
+
+        .stat {
+            text-align: center;
+            padding: 1rem;
+            background: #f8f9ff;
+            border-radius: 8px;
+        }
+
+        .stat-number {
+            font-size: 2rem;
+            font-weight: bold;
+            color: #667eea;
+        }
+
+        .stat-label {
+            color: #666;
+            font-size: 0.9rem;
+            margin-top: 0.5rem;
+        }
+
+        .qr-section {
+            text-align: center;
+            padding: 2rem;
+        }
+
+        .qr-placeholder {
+            width: 200px;
+            height: 200px;
+            background: #f0f0f0;
+            border: 2px dashed #ccc;
+            margin: 1rem auto;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 10px;
+            color: #666;
+        }
+
+        .scan-btn {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 0.75rem 2rem;
+            border-radius: 5px;
+            font-size: 1rem;
+            cursor: pointer;
+            margin-top: 1rem;
+        }
+
+        .attendance-list {
+            max-height: 400px;
+            overflow-y: auto;
+        }
+
+        .attendance-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem;
+            border-bottom: 1px solid #eee;
+        }
+
+        .attendance-item:last-child {
+            border-bottom: none;
+        }
+
+        .attendance-time {
+            color: #666;
+            font-size: 0.9rem;
+        }
+
+        .status {
+            padding: 0.25rem 0.75rem;
+            border-radius: 15px;
+            font-size: 0.8rem;
+            font-weight: 500;
+        }
+
+        .status.present {
+            background: #d4edda;
+            color: #155724;
+        }
+
+        .status.late {
+            background: #fff3cd;
+            color: #856404;
+        }
+
+        .status.absent {
+            background: #f8d7da;
+            color: #721c24;
+        }
+
+        .error {
+            background: #fee;
+            color: #c33;
+            padding: 1rem;
+            border-radius: 5px;
+            margin: 1rem 0;
+            border-left: 4px solid #c33;
+        }
+
+        .loading {
+            text-align: center;
+            padding: 2rem;
+            color: #666;
+        }
+
+        @media (max-width: 768px) {
+            .header {
+                padding: 1rem;
+            }
+
+            .container {
+                padding: 0 1rem;
+            }
+
+            .dashboard-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .stats {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <div class="logo">Tap & Track</div>
+        <div class="user-info">
+            <div class="user-details">
+                <div class="user-name" id="userName">Loading...</div>
+                <div class="user-role" id="userRole">Loading...</div>
+            </div>
+            <button class="logout-btn" onclick="logout()">Logout</button>
+        </div>
+    </header>
+
+    <div class="container">
+        <div id="errorMessage"></div>
+        <div id="loadingMessage" class="loading">Loading dashboard...</div>
+        <div id="dashboardContent" style="display: none;">
+            <div class="dashboard-grid">
+                <div class="card">
+                    <h3>Today's Stats</h3>
+                    <div class="stats">
+                        <div class="stat">
+                            <div class="stat-number" id="totalClasses">0</div>
+                            <div class="stat-label">Total Classes</div>
+                        </div>
+                        <div class="stat">
+                            <div class="stat-number" id="attendanceRate">0%</div>
+                            <div class="stat-label">Attendance Rate</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <h3>QR Code Scanner</h3>
+                    <div class="qr-section">
+                        <div class="qr-placeholder">
+                            📱<br>
+                            <small>QR Scanner<br>Placeholder</small>
+                        </div>
+                        <button class="scan-btn" onclick="scanQR()">Scan QR Code</button>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <h3>Recent Attendance</h3>
+                    <div class="attendance-list" id="attendanceList">
+                        <div class="loading">Loading attendance records...</div>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <h3>Quick Actions</h3>
+                    <div style="display: flex; flex-direction: column; gap: 1rem;">
+                        <button class="scan-btn" onclick="markAttendance()">Mark Attendance</button>
+                        <button class="scan-btn" onclick="viewSchedule()">View Schedule</button>
+                        <button class="scan-btn" onclick="viewReports()">View Reports</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const API_BASE = 'https://localhost:7258/api/auth';
+        
+        function showError(message) {
+            const errorDiv = document.getElementById('errorMessage');
+            errorDiv.innerHTML = `<div class="error">${message}</div>`;
+        }
+
+        function logout() {
+            localStorage.removeItem('accessToken');
+            localStorage.removeItem('userData');
+            window.location.href = 'login.html';
+        }
+
+        async function loadDashboard() {
+            const token = localStorage.getItem('accessToken');
+            
+            if (!token) {
+                window.location.href = 'login.html';
+                return;
+            }
+
+            try {
+                const response = await fetch(`${API_BASE}/dashboard`, {
+                    method: 'GET',
+                    headers: {
+                        'Authorization': `Bearer ${token}`,
+                        'Content-Type': 'application/json'
+                    }
+                });
+
+                if (!response.ok) {
+                    if (response.status === 401) {
+                        logout();
+                        return;
+                    }
+                    throw new Error('Failed to load dashboard');
+                }
+
+                const data = await response.json();
+                displayDashboard(data);
+                
+            } catch (error) {
+                showError('Failed to load dashboard data');
+                console.error('Dashboard error:', error);
+            }
+        }
+
+        function displayDashboard(data) {
+            const user = data.user;
+            const profile = data.profile ? JSON.parse(data.profile)[0] : null;
+            
+            // Update user info
+            document.getElementById('userName').textContent = profile?.name || user.email;
+            document.getElementById('userRole').textContent = profile?.role || 'user';
+            
+            // Update stats (mock data for demo)
+            document.getElementById('totalClasses').textContent = '12';
+            document.getElementById('attendanceRate').textContent = '85%';
+            
+            // Update attendance list (mock data)
+            const attendanceList = document.getElementById('attendanceList');
+            const mockAttendance = [
+                { subject: 'Mathematics', time: '09:00 AM', status: 'present' },
+                { subject: 'Physics', time: '10:30 AM', status: 'present' },
+                { subject: 'Chemistry', time: '02:00 PM', status: 'late' },
+                { subject: 'English', time: '03:30 PM', status: 'absent' }
+            ];
+            
+            attendanceList.innerHTML = mockAttendance.map(item => `
+                <div class="attendance-item">
+                    <div>
+                        <div style="font-weight: 500;">${item.subject}</div>
+                        <div class="attendance-time">${item.time}</div>
+                    </div>
+                    <div class="status ${item.status}">${item.status}</div>
+                </div>
+            `).join('');
+            
+            // Show dashboard content
+            document.getElementById('loadingMessage').style.display = 'none';
+            document.getElementById('dashboardContent').style.display = 'block';
+        }
+
+        function scanQR() {
+            alert('QR Scanner functionality would be implemented here. For demo purposes, this is a placeholder.');
+        }
+
+        function markAttendance() {
+            alert('Mark attendance functionality would be implemented here.');
+        }
+
+        function viewSchedule() {
+            alert('View schedule functionality would be implemented here.');
+        }
+
+        function viewReports() {
+            alert('View reports functionality would be implemented here.');
+        }
+
+        // Initialize dashboard when page loads
+        document.addEventListener('DOMContentLoaded', loadDashboard);
+    </script>
+</body>
+</html>

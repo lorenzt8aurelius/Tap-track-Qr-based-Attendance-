@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Tap&Track - Register</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="login-container">
+    <h1>Create Account</h1>
+    <p class="subtitle">Join Tap&Track Today</p>
+
+    <form id="registerForm">
+      <div class="input-group">
+        <label for="username">Username</label>
+        <input type="text" id="username" name="username" placeholder="Choose a username" required />
+      </div>
+
+      <div class="input-group">
+        <label for="password">Password</label>
+        <input type="password" id="password" name="password" placeholder="Create a password" required />
+      </div>
+      
+      <div class="input-group">
+        <label for="role">I am a:</label>
+        <select id="role" name="role" required>
+            <option value="" disabled selected>Select your role</option>
+            <option value="student">Student</option>
+            <option value="teacher">Teacher</option>
+        </select>
+      </div>
+
+      <button type="submit" class="btn">Register</button>
+    </form>
+
+    <p class="note">Already have an account? <a href="index.html">Log in</a></p>
+  </div>
+
+  <script src="register.js"></script>
+</body>
+</html>

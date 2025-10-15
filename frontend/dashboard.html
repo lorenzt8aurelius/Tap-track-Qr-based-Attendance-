@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Tap&Track - Dashboard</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="dashboard-container">
+    <h1>Welcome to Tap&Track</h1>
+    <p id="role-info">Loading your dashboard...</p>
+
+    <div class="dashboard-section" id="student-dashboard" style="display: none;">
+      <h2>Student Dashboard</h2>
+      <p>✅ View your attendance records.</p>
+      <p>📌 Scan QR to mark your attendance.</p>
+    </div>
+
+    <div class="dashboard-section" id="teacher-dashboard" style="display: none;">
+      <h2>Teacher Dashboard</h2>
+      <p>📌 Generate QR codes for your classes.</p>
+      <p>📊 View attendance reports of your students.</p>
+    </div>
+
+    <div class="dashboard-section" id="admin-dashboard" style="display: none;">
+      <h2>Admin Dashboard</h2>
+      <p>👤 Manage users (add/remove students & teachers).</p>
+      <p>📌 Manage classes and view all attendance records.</p>
+    </div>
+
+    <button onclick="logout()" class="btn">Logout</button>
+  </div>
+
+  <script>
+    // Simulated role (later from backend)
+    const userRole = localStorage.getItem("role") || "student"; 
+    const roleInfo = document.getElementById("role-info");
+
+    if (userRole === "student") {
+      document.getElementById("student-dashboard").style.display = "block";
+      roleInfo.textContent = "You are logged in as Student.";
+    } else if (userRole === "teacher") {
+      document.getElementById("teacher-dashboard").style.display = "block";
+      roleInfo.textContent = "You are logged in as Teacher.";
+    } else if (userRole === "admin") {
+      document.getElementById("admin-dashboard").style.display = "block";
+      roleInfo.textContent = "You are logged in as Admin.";
+    }
+
+    function logout() {
+      localStorage.clear();
+      window.location.href = "index.html";
+    }
+  </script>
+</body>
+</html>
